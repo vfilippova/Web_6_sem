@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+  addresses Address[]
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  orderToProducts OrderToProduct[]
+}
+
+model Order {
+  id         Int        @id @default(autoincrement())
+  userId     Int
+  user       User       @relation(fields: [userId], references: [id])
+  totalPrice Float
+  createdAt  DateTime   @default(now())
+  orderToProducts OrderToProduct[]
+}
+
+model OrderToProduct {
+  orderId   Int     // Указывает на заказ
+  order     Order   @relation(fields: [orderId], references: [id])
+
+  productId Int     // Указывает на продукт
+  product   Product @relation(fields: [productId], references: [id])
+
+  // Добавляем новое поле для хранения цены продукта на момент заказа
+  productOrderPrice Float?
+
+  // Уникальный ключ, образованный из orderId и productId
+  @@unique([orderId, productId])
+}
+
+model Address {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  street     String
+  city       String
+  postalCode Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

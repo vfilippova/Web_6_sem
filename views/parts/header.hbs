@@ -1,0 +1,32 @@
+<header>
+  <div class="logo"><a href="/index.hbs"><img src="/img/logo.png" height="53px" width="135px"
+                                                     alt="логотип" /></a></div>
+  <nav class="menu">
+    <ul>
+{{#if isRegistration}}
+      <li><a href="/Menu">меню</a></li>
+{{else}}
+      <li><a href="/Menu">меню</a></li>
+{{/if}}
+
+{{#if isPlay}}
+      <li><a href="/ToDo">товары</a></li>
+{{else}}
+  <li><a href="/ToDo">товары</a></li>
+{{/if}}
+
+{{#if isPlay}}
+      <li><a href="/NewWork">работа</a></li>
+{{else}}
+  <li><a href="/NewWork">работа</a></li>
+{{/if}}
+
+{{#if isPlay}}
+      <li><a href="/index#footer-id">адрес</a></li>
+{{else}}
+  <li><a href="/index#footer-id">адрес</a></li>
+{{/if}}
+    </ul>
+  </nav>
+</header>
+
